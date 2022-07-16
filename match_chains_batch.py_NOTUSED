@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+#match_chains_batch.py <file_list>
+#tries to match all chain IDs in refe file to match file, or None if none are found
+#minimum sequence identity: 70 %
+#
+# The best match is kept. Therefore, one chain can be matched to multiple chains.
+#
+# INPUT (file.list: a file that contains a list of pdb files):
+#     path/ref.pdb
+#     path/model1.pdb
+#     path/model2.pdb
+# NOTE of file.list:
+#   1. ref.pdb has to be on the first line of file.list
+#   2. path in file.list should be relative to the CWD or use absolute path
+# OUTPUT:
+#    pdb files chain IDs renamed according to ref.pdb
+# Actions:
+#    1. use match_chains.py to get chain mapping
+#    2. split the pdb files to individual chains and rename chain IDs
+#    3. concatenate them into a new pdb file
+#
+import sys, os
+import pdb
+import subprocess
+import pdb
+
+min_identity = 70
+
+def get_chain_list(file):
+    # get a list of chain IDs from the input PDB file
+  f = open(file, "r")
+  chains0 = {}
+  for line in f.readlines():
+    if line[:4] != "ATOM": continue
+    chains0[line[21]] = 1
+  chains = []
+  keys = chains0.keys()
+  for key in keys:
+    if key == " ": continue
+    chains.append(key)
+  f.close()
+  return chains
+
+pdbFL1 = sys.argv[1]
+pdbFL2 = sys.argv[2]
+chainsA = get_chain_list(pdbFL1) #chain IDs in pdbFL1
+chainsB = get_chain_list(pdbFL2) #chain IDs in pdbFL2
+
+for chainA in chainsA:
+    match_nr = -1
+    match_chain = "None"
+    minscore = min_identity
+
+    for chainBnr in range(0, len(chainsB)):
+        chainB = chainsB[chainBnr]
+        result = subprocess.check_output(f"pdb-pdbalignscore {pdbFL1} {chainA} {pdbFL2} {chainB}", shell=True)
+        result = float(result)
+        if result > minscore:
+            minscore = result
+            match_nr = chainBnr
+            match_chain = chainsB[match_nr]
+            matchScore = result
+    print (f"{chainA}, {match_chain}, {matchScore}")
