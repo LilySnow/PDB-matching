@@ -7,7 +7,7 @@ Renumber model.pdb files based on ref.pdb (only keep the common part among all f
 NOTE: The input files are assumed to have match chain IDs (by `pdb_match_chn_batch.py`)
 
 Usage:
-        pdb_renum_batch.py <list of pdb files> <string:chain IDs>
+        pdb_renum_batch.py <list of pdb files> <matched_chain_IDs>
 Example:
         pdb_renum_batch.py example/file.list2 'M,N,O,P'
 
@@ -92,7 +92,7 @@ listFL = sys.argv[1]
 chnIDs_ref = sys.argv[2].split(',')
 pdbFLs = read_listFL(listFL)
 refFL = pdbFLs.pop(0)
-dir = dirname(pdbFLs[0])
+dir = dirname(os.path.abspath(pdbFLs[0]))
 
 # create common_A.pdb, common_B.pdb , common_chnID.pdb and so on
 create_commonPDB(refFL, pdbFLs, chnIDs_ref, outDIR = dir)
