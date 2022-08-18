@@ -46,7 +46,7 @@ for pdbFL in pdbFLs:
     print (f"\n--- Mapping chain IDs of {pdbFL} to ref.pdb ---")
 
     # 1. generate chain ID map file
-    dir = os.path.dirname(pdbFL)
+    dir = os.path.dirname(os.path.abspath(pdbFL))
     flname = basename(pdbFL,'.pdb')
     mapFL = f"{dir}/{flname}.chnMap"
     subprocess.check_call(f"pdb_match_chn.py {refFL} {pdbFL} > {mapFL}", shell=True)

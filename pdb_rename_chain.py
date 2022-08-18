@@ -59,11 +59,12 @@ def rename_chain(pdbFL, mapFL, final_pdbFL):
     chnMap = readMapFL(mapFL)
 
     # 1. split into individual chains
-    subprocess.check_call(f"./pdb_splitchain.py {pdbFL}", shell=True)
+    path = os.path.dirname(sys.argv[0])
+    subprocess.check_call(f"{path}/pdb_splitchain.py {pdbFL}", shell=True)
 
     # 2. rename chain ID for each individual chain file
     modelPDBFLs_newChn =[] #individual chain pdb files
-    dir = dirname(pdbFL)
+    dir = dirname(os.path.abspath(pdbFL))
     basename = Path(pdbFL).stem
 
     for model_chnID in chnMap.keys():

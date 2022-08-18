@@ -96,7 +96,7 @@ def run(fhandle, outname=None):
         except AttributeError:
             outname = _defname
 
-    dir = os.path.dirname(outname)
+    dir = os.path.dirname(os.path.abspath(outname))
     basename = os.path.basename(outname)
 
     chain_data = {}  # {chain_id: lines}
@@ -115,7 +115,7 @@ def run(fhandle, outname=None):
 
     for chain_id in sorted(chain_data.keys()):
         lines = chain_data[chain_id]
-        with open(f"{dir}/{basename }_{chain_id}.pdb", 'w') as fh:
+        with open(f"{dir}/{basename}_{chain_id}.pdb", 'w') as fh:
             fh.write(''.join(lines))
 
 
