@@ -5,8 +5,15 @@ Before we calculate RMSD, it is often a good pratice to make sure the ref.pdb
 and model.pdb files have the same chain IDs and the same residue numbering.
 
 ## Two main scripts
-- Step 1. `pdb_match_chn_batch.py`: match chain IDs of pdb files to ref.pdb
-- Step 2. `pdb_renum_batch.py`: align and renumber pdb files to ref.pdb
+- Step 1. `pdb_match_chn_batch.py`: match chain IDs of pdb files to ref.pdb.
+  Output `_newChnID.pdb` files.
+
+  *Note: This step can be skipped if model.pdb files have already matched chain IDs.*
+
+- Step 2. `pdb_renum_batch.py`: align and renumber pdb files to ref.pdb. Output
+  `_renum.pdb` files.
+
+  *Note: Update `file.list` to `_newChnID.pdb` files.*
 
 ## Step 1: Match chain IDs to ref.pdb
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """
-Map each chain ID in ref.pdb with a list of pdb files.
+1. obtain chain ID mappings between ref.pdb and to-be-mapped pdb files
+2. change the chain IDs of each pdb file to be mapped
+
 Minimum sequence identity: 70 %
 
 Usage:
@@ -18,8 +20,6 @@ NOTE of file.list:
   2. path in file.list should be relative to the CWD or use absolute path
 
 Actions:
-    1. obtain chain ID mappings between ref.pdb and to-be-mapped pdb files
-    2. change the chain IDs of each pdb file to be mapped
 
 
 OUTPUT:
@@ -30,6 +30,7 @@ import sys, os
 import pdb
 import subprocess
 from myfun import *
+from pathlib import Path
 
 def check_input(args):
 
@@ -42,18 +43,22 @@ listFL = sys.argv[1]
 pdbFLs = read_listFL(listFL)
 refFL = pdbFLs.pop(0)
 
+# create outDIR
+outDIR = "matched/chnID_matched"
+Path(outDIR).mkdir(parents=True, exist_ok=True)
+
+# match chain IDs
 for pdbFL in pdbFLs:
     print (f"\n--- Mapping chain IDs of {pdbFL} to ref.pdb ---")
 
     # 1. generate chain ID map file
-    dir = os.path.dirname(os.path.abspath(pdbFL))
     flname = basename(pdbFL,'.pdb')
-    mapFL = f"{dir}/{flname}.chnMap"
+    mapFL = f"{outDIR}/{flname}.chnMap"
     subprocess.check_call(f"pdb_match_chn.py {refFL} {pdbFL} > {mapFL}", shell=True)
     print (f"{mapFL} generated. Please double check!!!")
 
     #2. rename chain IDs of pdbFL
-    outFL = f"{dir}/{flname}_newChnID.pdb"
+    outFL = f"{outDIR}/{flname}_newChnID.pdb"
     subprocess.check_call(f"pdb_rename_chain.py {pdbFL} {mapFL} {outFL}", shell=True)
     print (f"{outFL} with matched chain IDs generated.")
 

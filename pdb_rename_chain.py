@@ -35,11 +35,13 @@ def check_input(args):
 
 def readMapFL(mapFL):
     # mapFL (the third column is optional):
+    #     ref, modelpdb, score
     #     A, M, 98.56
     #     C, N, 100.0
 
     chnMap = {} #chnMap{ref_chn}= model_chn
     f = open(mapFL, 'r')
+    next(f) #skip the header line: "ref, modelpdb, score"
     for line in f:
         line = re.sub('[\s\t]','', line)
         tmp = re.split(',', line)

@@ -38,6 +38,8 @@ pdbFL2 = sys.argv[2]
 chainsA = get_chain_list(pdbFL1) #chain IDs in pdbFL1
 chainsB = get_chain_list(pdbFL2) #chain IDs in pdbFL2
 
+print("ref, modelpdb, score")
+
 for chainA in chainsA:
     match_nr = -1
     match_chain = "None"
