@@ -10,7 +10,7 @@ and model.pdb files have the same chain IDs and the same residue numbering.
 
 ## Step 1: Match chain IDs to ref.pdb
 
-### For a list of pdb files
+### For two PDB files
 - `pdb_match_chn.py`:
 
     -> match chain IDs for two PDB files (Does not always work well. Need to
