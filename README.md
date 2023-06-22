@@ -4,6 +4,17 @@
 Before we calculate RMSD, it is often a good pratice to make sure the ref.pdb
 and model.pdb files have the same chain IDs and the same residue numbering.
 
+## Prerequisite
+1. install pdb-tools by HADDOCK: https://github.com/haddocking/pdb-tools
+2. Add this line to `~/.bashrc`:
+   ```
+       export PATH="$PATH:YOUR_DIR/PDB-matching"
+   ```
+   Replace YOUR_DIR with your local folder for PDB-matching.
+   Then in your terminal run:
+   ```source ~/.bashrc```
+   
+
 ## Two main scripts
 - Step 1. `pdb_match_chn_batch.py`: match chain IDs of pdb files to ref.pdb.
   Output `_newChnID.pdb` files.
