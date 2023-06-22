@@ -8,7 +8,7 @@
 
 echo "1. Match and renumber model.pdb to ref.pdb"
 chain_ID_ref='M'
-chain_ID_mobile = 'A'
+chain_ID_mobile='A'
 pdb-pdbalign ref.pdb $chain_ID_ref model.pdb $chain_ID_mobile > model_new.pdb #if model.pdb has residues that are not in ref.pdb, model_new.pdb will use X to denote them
 
 # delete the warning line in common.pdb
